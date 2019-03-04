@@ -30,5 +30,7 @@ Next phase will be doing <b>Backpropagation</b> for the datasets we have collect
 
 # Tips & Tricks
 I used to work with Microsoft Visual Studio for my Python projects. Now, after having a difficulty with visualizing my matrices data, I figured out that Pycharm’s has a feature that can view a matrix data into its dimension.
+![Pycharm Matrix Viewer](https://i.imgur.com/p8C2pLN.png)
+Pycharm Matrix Viewer: This is the first matrix [28 x 28] data of the training datasets.
 
-[![Pycharm Matrix Viewer](https://imgur.com/p8C2pLN)]
+![Console Label Reading](https://i.imgur.com/PZaUYUx.png) Console Label Reading: The code reads the first Training Label of the dataset is equals to 5.
