@@ -8,11 +8,13 @@ This project will be my first real Artificial Intelligence (AI).  A simple artif
 
 **2.	train-images.idx3-ubyte**
 - The MNIST database of handwritten digits, has a training set of 60,000 examples. 
-Source: http://yann.lecun.com/exdb/mnist/
+
+    <i>Source:</i> http://yann.lecun.com/exdb/mnist/
 
 **3.	train-labels.idx1-ubyte**
 - This database file is the result of handwritten digits, for training of the neural network.
-Source: http://yann.lecun.com/exdb/mnist/
+
+    <i>Source:</i> http://yann.lecun.com/exdb/mnist/
 
 **4. \\.idea (Folder) \*Optional**
 - This folder contains Pycharm’s files. I’ll explain down below, why I would recommend to use Pycharm by JetBrains in this project.
@@ -31,21 +33,22 @@ Next phase will be doing <b>Backpropagation</b> for the datasets we have collect
 # Tips & Tricks
 I used to work with Microsoft Visual Studio for my Python projects. Now, after having a difficulty with visualizing my matrices data, I figured out that Pycharm’s has a feature that can view a matrix data into its dimension.
 ![Pycharm Matrix Viewer](https://i.imgur.com/p8C2pLN.png)
-Pycharm Matrix Viewer: This is the first matrix [28 x 28] data of the training datasets.
+<b>Pycharm Matrix Viewer:</b> This is the first matrix [28 x 28] data of the training datasets.
 
-![Console Label Reading](https://i.imgur.com/PZaUYUx.png) Console Label Reading: The code reads the first Training Label of the dataset is equals to 5.
+![Console Label Reading](https://i.imgur.com/PZaUYUx.png) <b>Console Label Reading:</b> The code reads the first Training Label of the dataset is equals to 5.
 
 ## Donation
 If you think that any information you obtained here is worth of some money and are willing to pay for it, feel free to send any amount through PayPal or send me a coffee/beer (I don’t drink beer, wine instead!)
 
-[<center><img alt="Available at Amazon App Store" height="88" src="https://i.imgur.com/iyfHXE2.png" /></center>](https://www.paypal.me/HerbySio)
+[<center><img alt="Available at Amazon App Store" height="88" src="https://i.imgur.com/iyfHXE2.png" /></center>](https://www.paypal.me/HerbySio "Thank you")
 
 ## Humanitarian Objective
-    A Math Geek, a dedicated Researcher, an enthusiast of Artificial Intelligence, an Engineer, and an Entrepreneur, I look forward to a new challenge in bringing my expertise to a new level.
+A Math Geek, a dedicated Researcher, an enthusiast of Artificial Intelligence, an Engineer, and an Entrepreneur, I look forward to a new challenge in bringing my expertise to a new level.
 
-    Aiming to use my expertise to empower life with the use AI and Mathematics. 
+Aiming to use my expertise to empower life with the use AI and Mathematics. 
+
 Feel free to email me, my email below, if you want me to join your team, even for free. As long it is for the betterment of the world. Like beating a cancer or other superbugs, I know Kaggle has many challenges. That is why I am sharpening my skills in AI and learning its algorithm so when I enter the war, I know that I am ready. 
 
 I also need a mentor to forge a path for my machine learning study.
 
-[<center>engrbugs@gmail.com</center>](mailto:engrbugs@gmail.com)
+[<center>engrbugs@gmail.com</center>](mailto:engrbugs@gmail.com "engrbugs@gmail.com")
