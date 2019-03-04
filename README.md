@@ -26,3 +26,9 @@ Source: http://yann.lecun.com/exdb/mnist/
 4.	Find more datasets to test the with code.
 5.	User input and the project will automatically detect the digits. <i>(I cannot decide yet how the users will input.)</i>
 
+Next phase will be doing <b>Backpropagation</b> for the datasets we have collected. Please feel free to contribute or send me notes especially how the formula derives.
+
+# Tips & Tricks
+I used to work with Microsoft Visual Studio for my Python projects. Now, after having a difficulty with visualizing my matrices data, I figured out that Pycharm’s has a feature that can view a matrix data into its dimension.
+
+[![Pycharm Matrix Viewer](https://imgur.com/p8C2pLN)]
