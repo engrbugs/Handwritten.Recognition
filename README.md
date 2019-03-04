@@ -26,7 +26,7 @@ Source: http://yann.lecun.com/exdb/mnist/
 4.	Find more datasets to test the with code.
 5.	User input and the project will automatically detect the digits. <i>(I cannot decide yet how the users will input.)</i>
 
-Next phase will be doing <b>Backpropagation</b> for the datasets we have collected. Please feel free to contribute or send me notes especially how the formula derives.
+Next phase will be doing <b>Backpropagation</b> for the datasets we have collected. Please feel free to fork the project and share back to me your contribution or send me notes on how the formula derives.
 
 # Tips & Tricks
 I used to work with Microsoft Visual Studio for my Python projects. Now, after having a difficulty with visualizing my matrices data, I figured out that Pycharm’s has a feature that can view a matrix data into its dimension.
@@ -34,3 +34,18 @@ I used to work with Microsoft Visual Studio for my Python projects. Now, after h
 Pycharm Matrix Viewer: This is the first matrix [28 x 28] data of the training datasets.
 
 ![Console Label Reading](https://i.imgur.com/PZaUYUx.png) Console Label Reading: The code reads the first Training Label of the dataset is equals to 5.
+
+## Donation
+If you think that any information you obtained here is worth of some money and are willing to pay for it, feel free to send any amount through PayPal or send me a coffee/beer (I don’t drink beer, wine instead!)
+
+[<center><img alt="Available at Amazon App Store" height="88" src="https://i.imgur.com/iyfHXE2.png" /></center>](https://www.paypal.me/HerbySio)
+
+## Humanitarian Objective
+    A Math Geek, a dedicated Researcher, an enthusiast of Artificial Intelligence, an Engineer, and an Entrepreneur, I look forward to a new challenge in bringing my expertise to a new level.
+
+    Aiming to use my expertise to empower life with the use AI and Mathematics. 
+Feel free to email me, my email below, if you want me to join your team, even for free. As long it is for the betterment of the world. Like beating a cancer or other superbugs, I know Kaggle has many challenges. That is why I am sharpening my skills in AI and learning its algorithm so when I enter the war, I know that I am ready. 
+
+I also need a mentor to forge a path for my machine learning study.
+
+[<center>engrbugs@gmail.com</center>](mailto:engrbugs@gmail.com)
