@@ -19,6 +19,11 @@ This project will be my first real Artificial Intelligence (AI).  A simple artif
 **4. \\.idea (Folder) \*Optional**
 - This folder contains Pycharm’s files. I’ll explain down below, why I would recommend to use Pycharm by JetBrains in this project.
 
+### Libraries Needed:
+**1. Numpy -** http://www.numpy.org/
+
+    python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+
 ## Phasing of the Project:
 1.	Downloading Handwritten Digits Datasets. <b>(Done.)</b>
 2.	Reading the Datasets. <b>(Done)</b>
