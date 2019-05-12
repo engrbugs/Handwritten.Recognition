@@ -20,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Handwritten.Recognition.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="90" column="4" selection-start-line="90" selection-start-column="4" selection-end-line="90" selection-end-column="4" />
+            <state relative-caret-position="149">
+              <caret line="95" column="27" lean-forward="true" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
               <folding>
                 <element signature="e#24#43#0" expanded="true" />
                 <element signature="e#357#1911#0" />
@@ -260,7 +260,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49470899" visible="true" weight="0.24225576" />
       <window_info id="Structure" order="1" sideWeight="0.505291" side_tool="true" weight="0.24244833" />
@@ -417,8 +416,8 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/Einstien.py" />
     <entry file="file://$PROJECT_DIR$/Handwritten.Recognition.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="90" column="4" selection-start-line="90" selection-start-column="4" selection-end-line="90" selection-end-column="4" />
+        <state relative-caret-position="149">
+          <caret line="95" column="27" lean-forward="true" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
           <folding>
             <element signature="e#24#43#0" expanded="true" />
             <element signature="e#357#1911#0" />
