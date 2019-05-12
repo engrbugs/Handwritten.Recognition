@@ -45,7 +45,7 @@ I used to work with Microsoft Visual Studio for my Python projects. Now, after h
 ## Donation
 If you think that any information you obtained here is worth of some money and are willing to pay for it, feel free to send any amount through PayPal or send me a coffee/beer (I don’t drink beer, wine instead!)
 
-[<center><img alt="Available at Amazon App Store" height="88" src="https://i.imgur.com/iyfHXE2.png" /></center>](https://www.paypal.me/HerbySio "Thank you")
+[<center><img alt="Donate me!" height="88" src="https://i.imgur.com/iyfHXE2.png" /></center>](https://www.paypal.me/HerbySio "Thank you")
 
 ## Humanitarian Objective
 A Math Geek, a dedicated Researcher, an enthusiast of Artificial Intelligence, an Engineer, and an Entrepreneur, I look forward to a new challenge in bringing my expertise to a new level.
