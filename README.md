@@ -1,5 +1,5 @@
 # Handwritten Recognition
-This project will be my first real Artificial Intelligence (AI).  A simple artificial neural network from scratch. I'll dissect it to learn how AI works. (*.idx1-ubyte and *.idx3-ubyte)
+This project will be my first real Artificial Intelligence (AI).  A simple artificial neural network from scratch. I'll dissect it and learn how AI works. (*.idx1-ubyte and *.idx3-ubyte)
 
 
 ## Prerequisites Files:
