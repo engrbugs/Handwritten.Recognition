@@ -1,5 +1,5 @@
 # Handwritten Recognition
-This project will be my first real Artificial Intelligence (AI).  A simple artificial neural network from scratch. Before we jump into ambitious libraries such as Keras, Tensorflow, and etc. I would like to learn how neural network works. For now, this will start by reading MNIST dataset files. (*.idx1-ubyte and *.idx3-ubyte)
+This project will be my first real Artificial Intelligence (AI).  A simple artificial neural network from scratch. I'll disect it to learn how AI works. (*.idx1-ubyte and *.idx3-ubyte)
 
 
 ## Prerequisites Files:
@@ -41,11 +41,6 @@ I used to work with Microsoft Visual Studio for my Python projects. Now, after h
 <b>Pycharm Matrix Viewer:</b> This is the first matrix [28 x 28] data of the training datasets.
 
 ![Console Label Reading](https://i.imgur.com/PZaUYUx.png) <b>Console Label Reading:</b> The code reads the first Training Label of the dataset is equals to 5.
-
-## Donation
-If you think that any information you obtained here is worth of some money and are willing to pay for it, feel free to send any amount through PayPal or send me a coffee/beer (I don’t drink beer, wine instead!)
-
-[<center><img alt="Donate me!" height="88" src="https://i.imgur.com/iyfHXE2.png" /></center>](https://www.paypal.me/HerbySio "Thank you")
 
 ## Humanitarian Objective
 A Math Geek, a dedicated Researcher, an enthusiast of Artificial Intelligence, an Engineer, and an Entrepreneur, I look forward to a new challenge in bringing my expertise to a new level.
