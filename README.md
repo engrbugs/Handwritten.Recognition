@@ -16,11 +16,6 @@ This project will be my first real Artificial Intelligence (AI).  A simple artif
 
     <i>Source:</i> http://yann.lecun.com/exdb/mnist/
 
-**4. \\.idea (Folder) \*Optional**
-- This folder contains Pycharm’s files. I’ll explain down below, why I would recommend to use Pycharm by JetBrains in this project.
-
-### Libraries Needed:
-**1. Numpy -** http://www.numpy.org/
 
     python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 
