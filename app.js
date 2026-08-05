@@ -83,9 +83,13 @@ function runForwardPass(input) {
   const diagonal = input.reduce((sum, value, i) => sum + value * (i % 6 === 0 ? 1 : 0), 0) / 6;
   const lower = input.slice(20).reduce((a,b) => a + b, 0) / 15;
   const hidden1 = [...rows, ...cols, density, diagonal, lower].map(relu);
-  const similarities = Object.values(digitPatterns).map(pattern => pattern.join('').split('').reduce((sum, bit, i) => {
-    const target = bit === '1' ? 1 : 0; return sum + (1 - Math.abs(input[i] - target));
-  }, 0) / 35);
+  const similarities = Object.values(digitPatterns).map(pattern => {
+    const bits = pattern.join('').split('').map(Number); const ones = bits.reduce((sum, bit) => sum + bit, 0); const zeros = bits.length - ones;
+    const hit = bits.reduce((sum, bit, i) => sum + bit * input[i], 0) / ones;
+    const missing = bits.reduce((sum, bit, i) => sum + bit * (1 - input[i]), 0) / ones;
+    const extra = bits.reduce((sum, bit, i) => sum + (1 - bit) * input[i], 0) / zeros;
+    return Math.max(0, .5 + hit * .65 - missing * .2 - extra * .85);
+  });
   const hidden2 = [...similarities, relu(density * 2), relu((lower + rows[6]) / 2)];
   const logits = hidden2.slice(0, 10).map((value, digit) => value * 18 + hidden2[10] * (digit === 0 || digit === 8 ? 1 : .15) + hidden2[11] * (digit === 1 || digit === 7 ? 1 : .12));
   return { probabilities:softmax(logits), input, hidden1, hidden2 };
