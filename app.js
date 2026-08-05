@@ -20,6 +20,7 @@ let inputMode = 'digit';
 let drawing = false;
 let lastPoint = null;
 let networkState = { input:Array(35).fill(0), hidden1:Array(15).fill(0), hidden2:Array(12).fill(0), output:probabilities };
+let forwardStartedAt = 0;
 
 function clearCanvas() {
   drawCtx.fillStyle = '#080e1e'; drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
@@ -86,7 +87,7 @@ function runForwardPass(input) {
 }
 
 function setProbabilities(values, state, input = networkState.input) {
-  const result = values.probabilities ? values : runForwardPass(input); probabilities = result.probabilities; networkState = { input:result.input, hidden1:result.hidden1, hidden2:result.hidden2, output:result.probabilities };
+  const result = values.probabilities ? values : runForwardPass(input); probabilities = result.probabilities; networkState = { input:result.input, hidden1:result.hidden1, hidden2:result.hidden2, output:result.probabilities }; forwardStartedAt = performance.now();
   statePill.textContent = state; statePill.style.color = state === 'OOD WARNING' ? '#f378bd' : '#45e9a3'; statePill.style.borderColor = state === 'OOD WARNING' ? '#b84d886b' : '#3b8d7470';
   const max = Math.max(...probabilities), winner = probabilities.indexOf(max); confidenceLabel.textContent = state === 'READY' ? '—' : `${(max * 100).toFixed(0)}% → ${winner}`;
   probabilityRoot.innerHTML = probabilities.map((value, digit) => `<div class="prob-row ${digit === winner && state !== 'READY' ? 'top' : ''}" role="listitem"><span>${digit}</span><span class="prob-track"><span class="prob-fill" style="width:${Math.max(1, value * 100)}%"></span></span><span class="prob-value">${(value * 100).toFixed(1)}%</span></div>`).join('');
@@ -103,11 +104,14 @@ function renderNetwork() {
   const input = Array.from({length:8}, (_, i) => networkState.input.slice(i * 4, i === 7 ? 35 : i * 4 + 4).reduce((a,b) => a + b, 0) / 4);
   const layers = [input, activationNodes(networkState.hidden1, 15), activationNodes(networkState.hidden2, 12), networkState.output];
   const positions = layers.map((layer, column) => Array.from({length:layer.length}, (_, index) => ({x:width * [.08,.34,.64,.91][column], y:height * (.18 + (layer.length === 1 ? .32 : index * .64 / (layer.length - 1)))})));
+  const progress = Math.min(1, (performance.now() - forwardStartedAt) / 900);
   positions.slice(0, -1).forEach((layer, layerIndex) => layer.forEach((from, index) => positions[layerIndex + 1].forEach((to, targetIndex) => {
-    const activation = layers[layerIndex][index] * layers[layerIndex + 1][targetIndex]; const weight = edgeWeight(index, targetIndex, layerIndex); const strength = Math.min(1, activation * (.45 + Math.abs(weight) * .55));
-    netCtx.beginPath(); netCtx.moveTo(from.x, from.y); netCtx.lineTo(to.x, to.y); netCtx.lineWidth = .35 + strength * 1.25; netCtx.strokeStyle = weight >= 0 ? `rgba(101,217,255,${.05 + strength * .75})` : `rgba(243,120,189,${.04 + strength * .45})`; netCtx.stroke();
+    const activation = layers[layerIndex][index] * layers[layerIndex + 1][targetIndex]; const weight = edgeWeight(index, targetIndex, layerIndex); const strength = Math.min(1, activation * (.75 + Math.abs(weight) * .75));
+    const layerProgress = Math.min(1, Math.max(0, (progress - layerIndex * .22) / .42)); const visibleStrength = Math.max(strength * .9, strength * layerProgress);
+    netCtx.beginPath(); netCtx.moveTo(from.x, from.y); netCtx.lineTo(to.x, to.y); netCtx.lineWidth = .55 + visibleStrength * 2.1; netCtx.strokeStyle = weight >= 0 ? `rgba(101,217,255,${.12 + visibleStrength * .82})` : `rgba(243,120,189,${.10 + visibleStrength * .58})`; netCtx.stroke();
   })));
-  positions.forEach((layer, layerIndex) => layer.forEach((node, index) => { const active = layers[layerIndex][index]; netCtx.beginPath(); netCtx.arc(node.x, node.y, layerIndex === 3 ? 4 : 3, 0, Math.PI * 2); netCtx.fillStyle = inputMode === 'nonsense' && active > .35 ? '#f378bd' : `rgba(101,217,255,${.35 + active * .65})`; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = active > .35 ? 14 : 0; netCtx.fill(); netCtx.shadowBlur = 0; }));
+  positions.forEach((layer, layerIndex) => layer.forEach((node, index) => { const active = layers[layerIndex][index]; netCtx.beginPath(); netCtx.arc(node.x, node.y, layerIndex === 3 ? 4.5 : 3.5, 0, Math.PI * 2); netCtx.fillStyle = inputMode === 'nonsense' && active > .35 ? '#f378bd' : `rgba(101,217,255,${.42 + active * .58})`; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = active > .2 ? 16 : 0; netCtx.fill(); netCtx.shadowBlur = 0; }));
+  if (progress < 1) requestAnimationFrame(renderNetwork);
 }
 
 drawCanvas.addEventListener('pointerdown', event => { drawing = true; drawCanvas.setPointerCapture(event.pointerId); lastPoint = null; drawStroke(pointerPoint(event)); inputMode = 'drawn'; setProbabilities(runForwardPass(extractFeatures()), 'DRAWING', extractFeatures()); });
