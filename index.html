@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive neural-network lab about confidence, approximation, and out-of-distribution inputs.">
+  <title>When Confidence Lies · A Neural Network Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="lab-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="When Confidence Lies home">
+        <span class="brand-mark">∿</span>
+        <span><strong>When Confidence Lies</strong><small>an approachable neural-network lab</small></span>
+      </a>
+      <div class="topbar-meta"><span class="live-dot"></span> EDUCATIONAL SIMULATION <span class="version">v1.0</span></div>
+    </header>
+
+    <section class="hero-copy">
+      <p class="eyebrow">THE OOD PROBLEM</p>
+      <h1>Confident answers.<br><em>Uncertain foundations.</em></h1>
+      <p class="hero-lede">Draw something the model knows—or something it has never seen. Watch the same softmax machinery turn both into a neat answer.</p>
+    </section>
+
+    <section class="workspace" aria-label="Interactive neural network laboratory">
+      <aside class="panel draw-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">INPUT 01</span><h2>Draw a number</h2></div><span class="panel-status">28 × 28</span></div>
+        <div class="draw-wrap"><canvas id="draw-canvas" width="280" height="280" aria-label="Drawing canvas. Draw a digit or shape here."></canvas><span class="draw-corner tl"></span><span class="draw-corner tr"></span><span class="draw-corner bl"></span><span class="draw-corner br"></span></div>
+        <div class="draw-tools"><button id="clear-btn" class="tool-button" type="button">Clear</button><button id="demo-btn" class="tool-button primary" type="button">Load 5</button><button id="noise-btn" class="tool-button" type="button">Make nonsense</button></div>
+        <div class="digit-strip" aria-label="Load a digit template">
+          <button type="button" data-digit="0">0</button><button type="button" data-digit="1">1</button><button type="button" data-digit="2">2</button><button type="button" data-digit="3">3</button><button type="button" data-digit="4">4</button><button type="button" data-digit="5" class="selected">5</button><button type="button" data-digit="6">6</button><button type="button" data-digit="7">7</button><button type="button" data-digit="8">8</button><button type="button" data-digit="9">9</button>
+        </div>
+        <p class="hint"><span>↗</span> Click + drag to draw · right-click to erase</p>
+      </aside>
+
+      <section class="panel network-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">INFERENCE 02</span><h2>Inside the approximation</h2></div><span id="network-state" class="state-pill">READY</span></div>
+        <div class="network-wrap"><canvas id="network-canvas" width="720" height="380" aria-label="Animated neural network diagram showing an input layer, hidden layers, and output layer."></canvas><div class="layer-label input-label">INPUT<br><small>784 nodes</small></div><div class="layer-label hidden-label">HIDDEN LAYERS<br><small>relu · relu</small></div><div class="layer-label output-label">OUTPUT<br><small>10 classes</small></div></div>
+        <div class="network-footer"><span><i class="legend-swatch signal"></i> activation signal</span><span><i class="legend-swatch quiet"></i> learned connection</span><span id="latency">simulation · 16ms</span></div>
+      </section>
+
+      <aside class="panel probability-panel">
+        <div class="panel-heading"><div><span class="panel-kicker">OUTPUT 03</span><h2>Probabilities</h2></div><span id="confidence-label" class="confidence-label">—</span></div>
+        <div id="probabilities" class="probabilities" role="list" aria-label="Digit probabilities"></div>
+        <div class="network-overview"><span class="panel-kicker">NETWORK OVERVIEW</span><dl><div><dt>Overall parameters</dt><dd>109,386</dd></div><div><dt>Input nodes</dt><dd>784</dd></div><div><dt>Output classes</dt><dd>10</dd></div></dl><div class="architecture">dense 0 (relu) · 784 → 128<br><small>weights: 100,352 · bias: 128</small><br><br>dense 1 (relu) · 128 → 64<br><small>weights: 8,192 · bias: 64</small></div></div>
+      </aside>
+    </section>
+
+    <section class="lesson-grid" aria-label="Lesson summary">
+      <article class="lesson-card accent-card"><span class="lesson-number">01</span><h3>Draw inside the distribution.</h3><p>Clean templates produce sharp activations because their geometry resembles the examples the model was designed around.</p></article>
+      <article class="lesson-card"><span class="lesson-number">02</span><h3>Step outside it.</h3><p>Make a shape that is not a digit. The classifier still has to choose one of ten labels.</p></article>
+      <article class="lesson-card"><span class="lesson-number">03</span><h3>Read confidence critically.</h3><p>A high softmax score is a preference among known labels—not proof that the input belongs to the world those labels describe.</p></article>
+    </section>
+
+    <footer class="footer-note"><span>Built from the original Handwritten Recognition learning project.</span><span>Not a production classifier · no data leaves this page.</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
