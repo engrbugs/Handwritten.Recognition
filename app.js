@@ -80,6 +80,28 @@ function loadNonsense() {
 
 function selectDigitButton(digit) { document.querySelectorAll('[data-digit]').forEach(button => button.classList.toggle('selected', button.dataset.digit === String(digit))); }
 
+function classifyDrawing() {
+  const pixels = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height).data;
+  const ink = [];
+  for (let y = 0; y < drawCanvas.height; y += 2) for (let x = 0; x < drawCanvas.width; x += 2) {
+    const index = (y * drawCanvas.width + x) * 4; const red = pixels[index]; const green = pixels[index + 1]; const blue = pixels[index + 2];
+    if (green > 100 && green > red * 1.25 && green > blue * .8) ink.push({x, y});
+  }
+  if (ink.length < 8) return Array(10).fill(.1);
+  const minX = Math.min(...ink.map(point => point.x)); const maxX = Math.max(...ink.map(point => point.x)); const minY = Math.min(...ink.map(point => point.y)); const maxY = Math.max(...ink.map(point => point.y));
+  const spanX = Math.max(1, maxX - minX); const spanY = Math.max(1, maxY - minY); const sampled = Array.from({length: 7}, (_, row) => Array.from({length: 5}, (_, column) => {
+    const left = minX + column / 5 * spanX; const right = minX + (column + 1) / 5 * spanX; const top = minY + row / 7 * spanY; const bottom = minY + (row + 1) / 7 * spanY;
+    return ink.filter(point => point.x >= left && point.x < right && point.y >= top && point.y < bottom).length / ink.length;
+  }));
+  const scores = Object.entries(digitPatterns).map(([digit, pattern]) => {
+    let score = 0;
+    pattern.forEach((row, y) => row.split('').forEach((value, x) => { const observed = sampled[y][x]; score += value === '1' ? Math.min(observed * 7, 1) : Math.max(0, .12 - observed); }));
+    return {digit:Number(digit), score};
+  });
+  const maxScore = Math.max(...scores.map(item => item.score)); const weights = scores.map(item => Math.exp((item.score - maxScore) * 2.8)); const total = weights.reduce((sum, value) => sum + value, 0);
+  return weights.map(value => value / total);
+}
+
 function setProbabilities(values, state) {
   probabilities = values; statePill.textContent = state; statePill.style.color = state === 'OOD WARNING' ? '#f378bd' : '#45e9a3'; statePill.style.borderColor = state === 'OOD WARNING' ? '#b84d886b' : '#3b8d7470';
   const max = Math.max(...values); const winner = values.indexOf(max); confidenceLabel.textContent = state === 'READY' ? '—' : `${(max * 100).toFixed(0)}% → ${winner}`;
@@ -103,7 +125,7 @@ function drawNetwork() {
 
 drawCanvas.addEventListener('pointerdown', event => { drawing = true; drawCanvas.setPointerCapture(event.pointerId); lastPoint = null; drawStroke(pointerPoint(event)); inputMode = 'drawn'; setProbabilities([.1,.1,.1,.1,.1,.1,.1,.1,.1,.1], 'DRAWING'); });
 drawCanvas.addEventListener('pointermove', event => { if (drawing) drawStroke(pointerPoint(event)); });
-drawCanvas.addEventListener('pointerup', () => { drawing = false; lastPoint = null; if (inputMode === 'drawn') { const values = [.03,.04,.06,.04,.15,.36,.08,.06,.07,.11]; setProbabilities(values, 'INFERENCE'); } });
+drawCanvas.addEventListener('pointerup', () => { drawing = false; lastPoint = null; if (inputMode === 'drawn') { setProbabilities(classifyDrawing(), 'INFERENCE'); } });
 drawCanvas.addEventListener('contextmenu', event => { event.preventDefault(); clearCanvas(); });
 document.getElementById('clear-btn').addEventListener('click', clearCanvas);
 document.getElementById('demo-btn').addEventListener('click', () => loadDigit(5));
