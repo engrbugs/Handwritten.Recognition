@@ -36,14 +36,14 @@
 
       <section class="panel network-panel">
         <div class="panel-heading"><div><span class="panel-kicker">INFERENCE 02</span><h2>Inside the approximation</h2></div><span id="network-state" class="state-pill">READY</span></div>
-        <div class="network-wrap"><canvas id="network-canvas" width="720" height="380" aria-label="Animated neural network diagram showing an input layer, hidden layers, and output layer."></canvas><div class="layer-label input-label">INPUT<br><small>784 nodes</small></div><div class="layer-label hidden-label">HIDDEN LAYERS<br><small>relu · relu</small></div><div class="layer-label output-label">OUTPUT<br><small>10 classes</small></div></div>
-        <div class="network-footer"><span><i class="legend-swatch signal"></i> activation signal</span><span><i class="legend-swatch quiet"></i> learned connection</span><span id="latency">simulation · 16ms</span></div>
+        <div class="network-wrap"><canvas id="network-canvas" width="720" height="380" aria-label="Computed neural network diagram showing input features, hidden layers, and output activations."></canvas><div class="layer-label input-label">INPUT<br><small>35 features</small></div><div class="layer-label hidden-label">HIDDEN LAYERS<br><small>relu · relu</small></div><div class="layer-label output-label">OUTPUT<br><small>10 classes</small></div></div>
+        <div class="network-footer"><span><i class="legend-swatch signal"></i> computed activation</span><span><i class="legend-swatch quiet"></i> weighted connection</span><span id="latency">forward pass · fixed weights</span></div>
       </section>
 
       <aside class="panel probability-panel">
         <div class="panel-heading"><div><span class="panel-kicker">OUTPUT 03</span><h2>Probabilities</h2></div><span id="confidence-label" class="confidence-label">—</span></div>
         <div id="probabilities" class="probabilities" role="list" aria-label="Digit probabilities"></div>
-        <div class="network-overview"><span class="panel-kicker">NETWORK OVERVIEW</span><dl><div><dt>Overall parameters</dt><dd>109,386</dd></div><div><dt>Input nodes</dt><dd>784</dd></div><div><dt>Output classes</dt><dd>10</dd></div></dl><div class="architecture">dense 0 (relu) · 784 → 128<br><small>weights: 100,352 · bias: 128</small><br><br>dense 1 (relu) · 128 → 64<br><small>weights: 8,192 · bias: 64</small></div></div>
+        <div class="network-overview"><span class="panel-kicker">NETWORK OVERVIEW</span><dl><div><dt>Overall parameters</dt><dd>852</dd></div><div><dt>Input features</dt><dd>35</dd></div><div><dt>Output classes</dt><dd>10</dd></div></dl><div class="architecture">dense 0 (relu) · 35 → 15<br><small>weights: 525 · bias: 15</small><br><br>dense 1 (relu) · 15 → 12<br><small>weights: 180 · bias: 12</small><br><br>dense 2 (softmax) · 12 → 10<br><small>weights: 120 · bias: 10</small></div></div>
       </aside>
     </section>
 

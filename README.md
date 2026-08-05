@@ -38,6 +38,16 @@ Move the slider and watch the secant slope converge toward the tangent slope. Th
 
 The repository began as a Python study of MNIST files and a neural network built while learning the underlying mathematics. The browser experience is a deliberately transparent educational simulation inspired by that work; it is not presented as a newly trained production classifier.
 
+### What is actually computed?
+
+The network panel is no longer a decorative animation. Every redraw comes from a small forward pass:
+
+```text
+35 sampled canvas features → 15 ReLU features → 12 ReLU features → 10-class softmax
+```
+
+The first hidden layer measures row density, column density, and simple shape geometry. The second compares those features with the ten digit prototypes, then the softmax turns the resulting logits into probabilities. The weights are fixed and hand-designed for teaching, so the demo makes the mechanics visible without claiming to be a trained MNIST model.
+
 The visual uses a compact hand-tuned demonstration layer so the idea is explorable in a browser with no server, model download, or data upload. The original Python source and MNIST files remain available for continued experimentation.
 
 ## Companion experiment
