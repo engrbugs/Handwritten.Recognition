@@ -99,8 +99,11 @@ function setProbabilities(values, state, input = networkState.input) {
   const result = values.probabilities ? values : runForwardPass(input); probabilities = result.probabilities; networkState = { input:result.input, hidden1:result.hidden1, hidden2:result.hidden2, output:result.probabilities };
   statePill.textContent = state; statePill.style.color = state === 'OOD WARNING' ? '#f378bd' : '#45e9a3'; statePill.style.borderColor = state === 'OOD WARNING' ? '#b84d886b' : '#3b8d7470';
   const max = Math.max(...probabilities), winner = probabilities.indexOf(max); confidenceLabel.textContent = state === 'READY' ? '—' : `${(max * 100).toFixed(0)}% → ${winner}`;
-  probabilityRoot.innerHTML = probabilities.map((value, digit) => `<div class="prob-row ${digit === winner && state !== 'READY' ? 'top' : ''}" role="listitem"><span>${digit}</span><span class="prob-track"><span class="prob-fill" style="width:${Math.max(1, value * 100)}%"></span></span><span class="prob-value">${(value * 100).toFixed(1)}%</span></div>`).join('');
-  latencyLabel.textContent = state === 'OOD WARNING' ? 'forward pass · no OOD detector' : state === 'READY' ? 'forward pass · waiting for input' : 'forward pass · fixed weights'; renderNetwork();
+  probabilityRoot.innerHTML = probabilities.map((value, digit) => {
+    const isWinner = digit === winner && state !== 'READY';
+    return `<div class="prob-row ${isWinner ? 'top' : ''}" role="listitem" aria-label="Digit ${digit}: ${(value * 100).toFixed(1)} percent${isWinner ? ', highest probability' : ''}"><span class="prob-digit">${digit}</span><span class="prob-track"><span class="prob-fill" style="width:${Math.max(1, value * 100)}%"></span></span>${isWinner ? '<span class="winner-marker">highest</span>' : ''}<span class="prob-value">${(value * 100).toFixed(1)}%</span></div>`;
+  }).join('');
+  latencyLabel.textContent = state === 'OOD WARNING' ? 'signal flow · no OOD detector' : state === 'READY' ? 'signal flow · waiting for input' : 'signal flow · live'; renderNetwork();
 }
 
 function activationNodes(values, count) { return values.slice(0, count).map(value => Math.min(1, Math.max(0, value))); }
@@ -113,14 +116,14 @@ function renderNetwork() {
   const input = Array.from({length:8}, (_, i) => networkState.input.slice(i * 4, i === 7 ? 35 : i * 4 + 4).reduce((a,b) => a + b, 0) / 4);
   const layers = [input, activationNodes(networkState.hidden1, 15), activationNodes(networkState.hidden2, 12), networkState.output];
   const positions = layers.map((layer, column) => Array.from({length:layer.length}, (_, index) => ({x:width * [.08,.34,.64,.91][column], y:height * (.18 + (layer.length === 1 ? .32 : index * .64 / (layer.length - 1)))})));
-  const flow = (performance.now() % 2200) / 2200;
+  const flow = (performance.now() % 1800) / 1800;
   positions.slice(0, -1).forEach((layer, layerIndex) => layer.forEach((from, index) => positions[layerIndex + 1].forEach((to, targetIndex) => {
     const activation = layers[layerIndex][index] * layers[layerIndex + 1][targetIndex]; const weight = edgeWeight(index, targetIndex, layerIndex); const strength = Math.min(1, activation * (.75 + Math.abs(weight) * .75));
     const pulsePosition = (flow + layerIndex * .24 + index * .013 + targetIndex * .007) % 1; const pulse = Math.max(0, 1 - Math.abs(pulsePosition - .5) * 4); const active = strength > .11; const visibleStrength = active ? Math.max(strength, strength * (.7 + pulse * 1.4)) : strength * .2;
     netCtx.beginPath(); netCtx.moveTo(from.x, from.y); netCtx.lineTo(to.x, to.y); netCtx.lineWidth = active ? .8 + visibleStrength * 2.4 : .35; netCtx.strokeStyle = weight >= 0 ? `rgba(101,217,255,${active ? .16 + visibleStrength * .84 : .025})` : `rgba(243,120,189,${active ? .13 + visibleStrength * .62 : .02})`; netCtx.stroke();
-    if (active && pulse > .5) { const px = from.x + (to.x - from.x) * pulsePosition, py = from.y + (to.y - from.y) * pulsePosition; netCtx.beginPath(); netCtx.arc(px, py, 2.4 + strength * 2.4, 0, Math.PI * 2); netCtx.fillStyle = weight >= 0 ? '#65d9ff' : '#f378bd'; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = 14; netCtx.fill(); netCtx.shadowBlur = 0; }
+    if (active) { const px = from.x + (to.x - from.x) * pulsePosition, py = from.y + (to.y - from.y) * pulsePosition; netCtx.beginPath(); netCtx.arc(px, py, 2.8 + strength * 3.2 + pulse * 2, 0, Math.PI * 2); netCtx.fillStyle = weight >= 0 ? '#65d9ff' : '#f378bd'; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = 18 + pulse * 12; netCtx.fill(); netCtx.shadowBlur = 0; }
   })));
-  positions.forEach((layer, layerIndex) => layer.forEach((node, index) => { const active = layers[layerIndex][index]; netCtx.beginPath(); netCtx.arc(node.x, node.y, layerIndex === 3 ? 4.5 : 3.5, 0, Math.PI * 2); netCtx.fillStyle = inputMode === 'nonsense' && active > .35 ? '#f378bd' : `rgba(101,217,255,${.42 + active * .58})`; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = active > .2 ? 16 : 0; netCtx.fill(); netCtx.shadowBlur = 0; }));
+  positions.forEach((layer, layerIndex) => layer.forEach((node, index) => { const active = layers[layerIndex][index]; const radius = layerIndex === 3 ? 4.8 : 3.8; const color = inputMode === 'nonsense' && active > .35 ? '#f378bd' : '#65d9ff'; if (active > .12) { netCtx.beginPath(); netCtx.arc(node.x, node.y, radius + 5 + active * 4, 0, Math.PI * 2); netCtx.strokeStyle = `${color}55`; netCtx.lineWidth = 1; netCtx.stroke(); } netCtx.beginPath(); netCtx.arc(node.x, node.y, radius, 0, Math.PI * 2); netCtx.fillStyle = inputMode === 'nonsense' && active > .35 ? '#f378bd' : `rgba(101,217,255,${.42 + active * .58})`; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = active > .2 ? 20 : 0; netCtx.fill(); netCtx.shadowBlur = 0; }));
   requestAnimationFrame(renderNetwork);
 }
 
