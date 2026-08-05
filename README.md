@@ -50,14 +50,14 @@ The first hidden layer measures row density, column density, and simple shape ge
 
 The visual uses a compact hand-tuned demonstration layer so the idea is explorable in a browser with no server, model download, or data upload. The original Python source and MNIST files remain available for continued experimentation.
 
-## Companion experiment
+## Companion experiment: H5 files and logistic regression
 
-The former `H5FileOpener` project is the companion binary-image lab: it reads the `cat-vs-noncat` HDF5 dataset and walks through a from-scratch logistic-regression training loop. It belongs in the same learning collection, but it should remain a separate experiment inside the collection because its dataset, task, and model are different.
+The H5 file opener now lives inside this repository at [`labs/h5-file-opener/`](labs/h5-file-opener/). It reads the `cat-vs-noncat` HDF5 dataset and walks through a from-scratch logistic-regression training loop. It is a separate lab folder—not a separate showcase repository—because its dataset, task, and model are different from the handwritten-digit browser demo.
 
 | Lab | Input | Model idea | Status |
 | --- | --- | --- | --- |
 | Handwritten Recognition | MNIST digits | Image parsing and neural-network foundations | Interactive browser showcase |
-| H5 / cat-vs-noncat | HDF5 color images | Logistic regression and gradient descent | Python learning experiment |
+| H5 / cat-vs-noncat | HDF5 color images | Logistic regression and gradient descent | Included Python learning lab |
 
 ## Run locally
 
@@ -77,6 +77,7 @@ No package installation is required for the browser lab. The original Python exp
 - `train-*.idx*` and `t10k-*.idx*` — MNIST training and test files
 - `mnist.npz` — compact NumPy dataset copy
 - `index.html`, `styles.css`, `app.js` — the browser lab
+- `labs/h5-file-opener/` — HDF5 image inspection and logistic-regression lab
 
 The browser page is intentionally self-contained. It does not transmit drawings or collect analytics.
 
