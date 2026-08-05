@@ -39,7 +39,11 @@ function loadDigit(digit) {
   clearCanvas(); const pattern = digitPatterns[digit]; const cell = 28;
   drawCtx.strokeStyle = '#55f0ad'; drawCtx.shadowColor = '#28d99a'; drawCtx.shadowBlur = 14; drawCtx.lineWidth = 13; drawCtx.lineCap = 'round'; drawCtx.lineJoin = 'round';
   pattern.forEach((row, y) => row.split('').forEach((value, x) => { if (value !== '1') return; drawCtx.beginPath(); drawCtx.moveTo(42 + x * cell, 48 + y * cell); drawCtx.lineTo(42 + x * cell + .1, 48 + y * cell + .1); drawCtx.stroke(); }));
-  drawCtx.shadowBlur = 0; inputMode = 'digit'; setProbabilities(runForwardPass(extractFeatures()), 'INFERENCE', extractFeatures()); selectDigitButton(digit);
+  drawCtx.shadowBlur = 0; inputMode = 'digit';
+  // Demo templates have an exact 5 × 7 representation, so the displayed digit
+  // and the features entering the network are the same data—not a hardcoded label.
+  const features = pattern.flatMap(row => row.split('').map(Number));
+  setProbabilities(runForwardPass(features), 'INFERENCE', features); selectDigitButton(digit);
 }
 
 function loadNonsense() {
@@ -79,9 +83,11 @@ function runForwardPass(input) {
   const diagonal = input.reduce((sum, value, i) => sum + value * (i % 6 === 0 ? 1 : 0), 0) / 6;
   const lower = input.slice(20).reduce((a,b) => a + b, 0) / 15;
   const hidden1 = [...rows, ...cols, density, diagonal, lower].map(relu);
-  const similarities = Object.values(digitPatterns).map(pattern => pattern.join('').split('').reduce((sum, bit, i) => sum + (bit === '1' ? input[i] : 0), 0) / 12);
+  const similarities = Object.values(digitPatterns).map(pattern => pattern.join('').split('').reduce((sum, bit, i) => {
+    const target = bit === '1' ? 1 : 0; return sum + (1 - Math.abs(input[i] - target));
+  }, 0) / 35);
   const hidden2 = [...similarities, relu(density * 2), relu((lower + rows[6]) / 2)];
-  const logits = hidden2.slice(0, 10).map((value, digit) => value * 8 + hidden2[10] * (digit === 0 || digit === 8 ? 1 : .15) + hidden2[11] * (digit === 1 || digit === 7 ? 1 : .12));
+  const logits = hidden2.slice(0, 10).map((value, digit) => value * 18 + hidden2[10] * (digit === 0 || digit === 8 ? 1 : .15) + hidden2[11] * (digit === 1 || digit === 7 ? 1 : .12));
   return { probabilities:softmax(logits), input, hidden1, hidden2 };
 }
 
@@ -106,9 +112,9 @@ function renderNetwork() {
   const flow = (performance.now() % 2200) / 2200;
   positions.slice(0, -1).forEach((layer, layerIndex) => layer.forEach((from, index) => positions[layerIndex + 1].forEach((to, targetIndex) => {
     const activation = layers[layerIndex][index] * layers[layerIndex + 1][targetIndex]; const weight = edgeWeight(index, targetIndex, layerIndex); const strength = Math.min(1, activation * (.75 + Math.abs(weight) * .75));
-    const pulsePosition = (flow + layerIndex * .24 + index * .013 + targetIndex * .007) % 1; const pulse = Math.max(0, 1 - Math.abs(pulsePosition - .5) * 3.5); const visibleStrength = Math.max(strength * .9, strength * (.55 + pulse * .8));
-    netCtx.beginPath(); netCtx.moveTo(from.x, from.y); netCtx.lineTo(to.x, to.y); netCtx.lineWidth = .55 + visibleStrength * 2.1; netCtx.strokeStyle = weight >= 0 ? `rgba(101,217,255,${.12 + visibleStrength * .82})` : `rgba(243,120,189,${.10 + visibleStrength * .58})`; netCtx.stroke();
-    if (strength > .025 && pulse > .72) { const px = from.x + (to.x - from.x) * pulsePosition, py = from.y + (to.y - from.y) * pulsePosition; netCtx.beginPath(); netCtx.arc(px, py, 1.5 + strength * 2, 0, Math.PI * 2); netCtx.fillStyle = weight >= 0 ? '#65d9ff' : '#f378bd'; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = 10; netCtx.fill(); netCtx.shadowBlur = 0; }
+    const pulsePosition = (flow + layerIndex * .24 + index * .013 + targetIndex * .007) % 1; const pulse = Math.max(0, 1 - Math.abs(pulsePosition - .5) * 4); const active = strength > .11; const visibleStrength = active ? Math.max(strength, strength * (.7 + pulse * 1.4)) : strength * .2;
+    netCtx.beginPath(); netCtx.moveTo(from.x, from.y); netCtx.lineTo(to.x, to.y); netCtx.lineWidth = active ? .8 + visibleStrength * 2.4 : .35; netCtx.strokeStyle = weight >= 0 ? `rgba(101,217,255,${active ? .16 + visibleStrength * .84 : .025})` : `rgba(243,120,189,${active ? .13 + visibleStrength * .62 : .02})`; netCtx.stroke();
+    if (active && pulse > .5) { const px = from.x + (to.x - from.x) * pulsePosition, py = from.y + (to.y - from.y) * pulsePosition; netCtx.beginPath(); netCtx.arc(px, py, 2.4 + strength * 2.4, 0, Math.PI * 2); netCtx.fillStyle = weight >= 0 ? '#65d9ff' : '#f378bd'; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = 14; netCtx.fill(); netCtx.shadowBlur = 0; }
   })));
   positions.forEach((layer, layerIndex) => layer.forEach((node, index) => { const active = layers[layerIndex][index]; netCtx.beginPath(); netCtx.arc(node.x, node.y, layerIndex === 3 ? 4.5 : 3.5, 0, Math.PI * 2); netCtx.fillStyle = inputMode === 'nonsense' && active > .35 ? '#f378bd' : `rgba(101,217,255,${.42 + active * .58})`; netCtx.shadowColor = netCtx.fillStyle; netCtx.shadowBlur = active > .2 ? 16 : 0; netCtx.fill(); netCtx.shadowBlur = 0; }));
   requestAnimationFrame(renderNetwork);
