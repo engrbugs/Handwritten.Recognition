@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive intuition for secant slopes, derivatives, and gradient descent.">
+  <title>Calculus Foundations · When Confidence Lies</title>
+  <link rel="stylesheet" href="derivatives.css">
+</head>
+<body>
+  <main class="calculus-shell">
+    <header class="calculus-topbar"><a href="index.html" class="back-link">← BACK TO THE LAB</a><span class="math-mark">dy/dx</span></header>
+    <section class="calculus-hero"><p class="eyebrow">CALCULUS FOUNDATIONS</p><h1>From a secant line<br><em>to a derivative.</em></h1><p>Gradient descent is built on a simple question: if I nudge the input, how much does the output change?</p></section>
+    <section class="derivative-workspace">
+      <section class="curve-panel"><div class="curve-heading"><div><span class="kicker">THE LIMIT IN MOTION</span><h2>Watch the second point approach <i>a</i></h2></div><output id="h-value" for="h-slider">h = 1.00</output></div><div class="curve-wrap"><canvas id="curve-canvas" width="900" height="500" aria-label="Interactive curve showing a secant line becoming a tangent line as h approaches zero"></canvas></div><label class="slider-label" for="h-slider"><span>Distance between points, <b>h</b></span><span id="slope-value">secant slope = 1.10</span></label><input id="h-slider" type="range" min="0.02" max="2.5" value="1" step="0.01"><div class="curve-legend"><span><i class="dot green"></i> tangent at a</span><span><i class="line cyan"></i> secant across Δx</span><span><i class="dot white"></i> sample points</span></div></section>
+      <aside class="notation-panel"><span class="kicker">THE NOTATION</span><h2>One idea.<br>Different lenses.</h2><div class="formula-card primary-formula"><strong>dy/dx</strong><span>the derivative</span><p>The instantaneous rate of change: the slope of the tangent line when the gap becomes infinitesimally small.</p></div><div class="formula-card"><strong>Δy/Δx</strong><span>the secant slope</span><p>Average change over a finite interval. This is what the blue line measures.</p></div><div class="formula-card"><strong>∂y/∂x</strong><span>a partial derivative</span><p>The change in one variable while holding the other variables constant.</p></div><div class="formula-card"><strong>δy/δx</strong><span>context-dependent</span><p>Often used for a finite variation or perturbation. It is not a universal replacement for dy/dx.</p></div></aside>
+    </section>
+    <section class="gradient-strip"><div><span class="kicker">WHY THIS MATTERS FOR AI</span><h2>Training follows the slope downhill.</h2></div><p>A model changes its parameters in the direction that reduces the loss. Derivatives tell it which small changes help—and by how much.</p><div class="gradient-equation">θ ← θ − α · ∇<sub>θ</sub> J(θ)</div></section>
+    <footer class="calculus-footer"><span>Original interactive visual · no lecture screenshot reproduced</span><span>Inspired by the clear derivative intuition taught in Andrew Ng’s courses.</span></footer>
+  </main>
+  <script src="derivatives.js"></script>
+</body>
+</html>

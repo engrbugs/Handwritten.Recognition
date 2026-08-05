@@ -4,6 +4,8 @@
 
 [Open the live showcase](https://engrbugs.github.io/Handwritten.Recognition/)
 
+[Open the Calculus Foundations page](https://engrbugs.github.io/Handwritten.Recognition/derivatives.html)
+
 ![When Confidence Lies neural-network lab](showcase-clean.png)
 
 ## The idea
@@ -13,6 +15,17 @@ Neural networks do not need to understand an input in order to produce a label. 
 This project makes that failure mode visible. Draw a digit, load a clean template, or create an unfamiliar shape. The lab shows a simulated activation path, class probabilities, and an explicit out-of-distribution warning.
 
 The point is not that every model is useless. The point is more precise: a softmax score is a preference among labels, not a proof that the input belongs to the training distribution.
+
+## The calculus underneath
+
+The new Calculus Foundations page connects the visual intuition to training:
+
+- **Δy/Δx** is the average slope between two points—the secant line.
+- **dy/dx** is the limiting instantaneous slope—the tangent line.
+- **∂y/∂x** is a partial derivative when a function has multiple inputs.
+- **δy/δx** is context-dependent notation for a finite variation or perturbation; it is not a universal substitute for a derivative.
+
+Move the slider and watch the secant slope converge toward the tangent slope. That same local-slope idea powers gradient descent when a model updates its parameters to reduce loss.
 
 ## Explore the lab
 
@@ -62,6 +75,8 @@ The browser page is intentionally self-contained. It does not transmit drawings 
 The larger question behind this project is how to make uncertainty legible. Better architectures may help, and uncertainty estimation can be improved, but no single confidence number should be mistaken for knowledge.
 
 Inspired by the discussion around out-of-distribution failure and the limits of confident classification.
+
+The calculus explanation is an original interactive recreation inspired by the clear derivative intuition taught in Andrew Ng’s courses. No lecture screenshot is reproduced; the page uses its own curve, notation, and visual treatment.
 
 ## License
 
